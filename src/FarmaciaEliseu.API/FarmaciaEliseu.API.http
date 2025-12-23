@@ -1,0 +1,6 @@
+@FarmaciaEliseu.API_HostAddress = http://localhost:5275
+
+GET {{FarmaciaEliseu.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
