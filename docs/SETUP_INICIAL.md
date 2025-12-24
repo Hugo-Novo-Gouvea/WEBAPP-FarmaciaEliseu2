@@ -33,8 +33,9 @@ dotnet new webapi -n FarmaciaEliseu.API
 
 # 3. Instalação de Pacotes do PostgreSQL (Entity Framework)
 cd FarmaciaEliseu.API
-dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
-dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore --version 9.0.0
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 9.0.0
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.0
 
 # 4. Vinculação do projeto à solução (voltando para a raiz)
 cd ../..
