@@ -1,0 +1,46 @@
+@page "/produtos"
+@using FarmaciaEliseu.API.Domain.Entities
+@inject HttpClient Http
+
+<PageTitle>Produtos</PageTitle>
+
+<h1>📦 Catálogo de Produtos</h1>
+
+@if (listaProdutos == null)
+{
+    <p><em>Carregando remédios...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nome / Descrição</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in listaProdutos)
+            {
+                <tr>
+                    <td>@produto.CodigoBarras</td>
+                    <td>@produto.Descricao</td>
+                    <td>@produto.PrecoVenda.ToString("C2")</td>
+                    <td>@produto.Localizacao</td> </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Produto>? listaProdutos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Aqui o Blazor vai na API buscar os dados
+        // O "/api/produtos" se soma com o "http://localhost:5000" que configuramos antes
+        listaProdutos = await Http.GetFromJsonAsync<List<Produto>>("api/produtos");
+    }
+}

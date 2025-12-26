@@ -5,57 +5,52 @@ using FarmaciaEliseu.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ==============================================================================
-// 1. CONFIGURAÇÃO DE INFRAESTRUTURA (SERVIDORES E BANCO)
-// ==============================================================================
-
-// Configuração do Servidor Web (Kestrel)
-// Força rodar na porta 5000 para evitar conflitos e portas aleatórias.
+// Configuração manual da porta 5000 (Isso que gera o aviso de override, e está correto!)
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.Listen(IPAddress.Any, 5000); 
-    // Se quiser HTTPS no futuro, descomente a linha abaixo (requer certificado):
-    // options.Listen(IPAddress.Any, 5001, listenOptions => listenOptions.UseHttps());
 });
 
-// Configuração do Banco de Dados (PostgreSQL)
-// Pega a string de conexão do User Secrets (Dev) ou appsettings.json (Prod)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-// ==============================================================================
-// 2. INJEÇÃO DE DEPENDÊNCIA DOS SERVIÇOS
-// ==============================================================================
+// --- MUDANÇA 1: Adicionar o serviço de CORS ---
+// Isso permite que o Blazor (que roda em outra porta) acesse os dados aqui.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy => 
+    {
+        policy.AllowAnyOrigin()  // Permite qualquer site (localhost, IP da rede, etc)
+              .AllowAnyMethod()  // Permite GET, POST, PUT, DELETE
+              .AllowAnyHeader(); // Permite qualquer cabeçalho
+    });
+});
+// ----------------------------------------------
 
-// Adiciona suporte a Controllers (Melhor para APIs grandes que Minimal API)
 builder.Services.AddControllers();
 
-// Configuração do Swagger (Documentação da API)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// ==============================================================================
-// 3. PIPELINE DE REQUISIÇÃO (MIDDLEWARES)
-// ==============================================================================
-
-// Em ambiente de desenvolvimento, ativa o Swagger visual
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(); // Cria a interface em /swagger/index.html
+    app.UseSwaggerUI();
 }
 
-// Redirecionamento HTTPS desligado para facilitar dev local (ative em produção!)
-// app.UseHttpsRedirection(); 
+// app.UseHttpsRedirection(); // Removi se estiver usando HTTP puro na porta 5000 para evitar conflito
+
+// --- MUDANÇA 2: Ativar o CORS ---
+// Importante: Coloque EXATAMENTE nesta ordem (antes do Authorization)
+app.UseCors("AllowAll"); 
+// --------------------------------
 
 app.UseAuthorization();
 
-// Mapeia os Controllers (Seus futuros endpoints de Clientes, Produtos, etc)
 app.MapControllers();
 
-// Roda a aplicação
 app.Run();
