@@ -11,7 +11,8 @@ builder.Services.AddRazorComponents()
 // Toda vez que você pedir um "HttpClient" nas páginas, ele entrega um configurado para a porta 5000.
 builder.Services.AddScoped(sp => new HttpClient 
 { 
-    BaseAddress = new Uri("http://localhost:5000/") 
+    // Ele tenta ler do appsettings. Se não achar, usa o localhost como "plano B"
+    BaseAddress = new Uri(builder.Configuration["ApiUrl"] ?? "http://localhost:5000/") 
 });
 // ---------------------------------------
 
