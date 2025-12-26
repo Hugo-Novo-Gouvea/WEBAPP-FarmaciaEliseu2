@@ -1,7 +1,72 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Início - Farmácia Eliseu</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container mt-4">
+    <div class="text-center mb-5">
+        <h1 class="display-4">💊 Farmácia Eliseu</h1>
+        <p class="lead text-muted">Selecione um módulo para começar</p>
+    </div>
 
-Welcome to your new app.
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="p-3 border rounded bg-light h-100">
+                <h3 class="mb-4 text-primary">
+                    <i class="bi bi-building-gear"></i> Gestão
+                </h3>
+                
+                <div class="d-grid gap-3">
+                    <a href="produtos" class="btn btn-outline-primary btn-lg p-4 text-start shadow-sm d-flex align-items-center">
+                        <i class="bi bi-box-seam-fill fs-2 me-3"></i>
+                        <div>
+                            <div class="fw-bold">Produtos</div>
+                            <small class="text-muted">Estoque, preços e cadastro de remédios</small>
+                        </div>
+                    </a>
+
+                    <a href="clientes" class="btn btn-outline-secondary btn-lg p-3 text-start d-flex align-items-center opacity-75">
+                        <i class="bi bi-people-fill fs-3 me-3"></i>
+                        <div>
+                            <div class="fw-bold">Clientes</div>
+                            <small>Cadastro e fidelização</small>
+                        </div>
+                    </a>
+
+                    <a href="funcionarios" class="btn btn-outline-secondary btn-lg p-3 text-start d-flex align-items-center opacity-75">
+                        <i class="bi bi-person-badge-fill fs-3 me-3"></i>
+                        <div>
+                            <div class="fw-bold">Funcionários</div>
+                            <small>Equipe e acessos</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="p-3 border rounded bg-light h-100">
+                <h3 class="mb-4 text-success">
+                    <i class="bi bi-cart4"></i> Vendas
+                </h3>
+
+                <div class="d-grid gap-3">
+                    <a href="#" class="btn btn-success btn-lg p-4 text-start shadow d-flex align-items-center">
+                        <i class="bi bi-basket2-fill fs-1 me-3"></i>
+                        <div>
+                            <div class="fw-bold fs-4">Nova Venda</div>
+                            <small class="text-white-50">Abrir frente de caixa (PDV)</small>
+                        </div>
+                    </a>
+
+                    <a href="movimentos" class="btn btn-outline-success btn-lg p-3 text-start d-flex align-items-center">
+                        <i class="bi bi-receipt fs-3 me-3"></i>
+                        <div>
+                            <div class="fw-bold">Histórico de Movimentos</div>
+                            <small>Consultar vendas passadas</small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
